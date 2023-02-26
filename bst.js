@@ -34,6 +34,8 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
     }
 };
 
-let array = [5,12,23,45,56,78,120]
+// let array = [5,12,23,45,56,78,120]
 
-console.log(prettyPrint(sortedArrayToBST(array, 0, 6)))
+// console.log(prettyPrint(sortedArrayToBST(array, 0, 6)))
+
+module.exports = Node;
