@@ -1,35 +1,35 @@
 const Node = require('./bst');
 
+
 class Tree {
     constructor(arr) {
-        this.root = this.buildTree(arr);
+        const sortedArray = [...new Set(arr)].sort((a, b) => a - b);
+        this.root = this.buildTree(sortedArray);
     }
 
-    mergeSort(arr) {
-        // Base case
-        if (arr.length <= 1) return arr;
-        let mid = Math.floor(arr.length / 2);
-        // Recursive call
-        let left = mergeSort(arr.slice(0, mid));
-        let right = mergeSort(arr.slice(mid));
-        return merge(left, right);
+    buildTree(sortedArray) {
+        if (sortedArray.length === 0) return null;
+    
+        const midpoint = Math.floor(sortedArray.length / 2);
+        const newNode = new Node(sortedArray[midpoint]);
+        newNode.left = this.buildTree(sortedArray.slice(0, midpoint));
+        newNode.right = this.buildTree(sortedArray.slice(midpoint + 1));
+        return newNode;
     }
+
+    prettyPrint = (node = this.root, prefix = '', isLeft = true) => {
+        if (node.right !== null) {
+          this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+        }
+        console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+        if (node.left !== null) {
+          this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+        }
+    };
+    
 }
 
-function merge(left, right) {
-    let sortedArr = [] // the sorted items will go here
-    while (left.length && right.length) {
-      // Insert the smallest item into sortedArr
-      if (left[0] < right[0]) {
-        sortedArr.push(left.shift())
-      } else {
-        sortedArr.push(right.shift())
-      }
-    }
-    // Use spread operators to create a new array, combining the three arrays
-    return [...sortedArr, ...left, ...right]
-};
 
-let array = [23,12,6,34,126]
-
-console.log(parse(array.sort()))
+let array = [23,12,6,34,126,4,27,45,134]
+const myTree = new Tree(array)
+myTree.prettyPrint();
