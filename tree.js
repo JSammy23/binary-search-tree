@@ -25,9 +25,9 @@ class Tree {
             return currentNode;
         }
         // Recur down the tree
-        if (key < currentNode.data) {
+        if (key < currentNode.value) {
             currentNode.left = this.insert(key, currentNode.left);
-        } else if (key > currentNode.data) {
+        } else if (key > currentNode.value) {
             currentNode.right = this.insert(key, currentNode.right);
         }
         // Return the unchanged node pointer
@@ -38,7 +38,7 @@ class Tree {
         if (node.right !== null) {
           this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
         }
-        console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+        console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`);
         if (node.left !== null) {
           this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
         }
