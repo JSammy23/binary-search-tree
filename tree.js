@@ -165,47 +165,117 @@ class Tree {
     
         return -1;
     }
-    
-    
 
-    // deleteKey(key, currentNode = this.root) {
-    //     // Base case: if tree is empty
-    //     if (currentNode == null) return currentNode;
-
-    //     // Recur down tree
-    //     if (key < currentNode) {
-    //         currentNode.left = this.deleteKey(key, currentNode.left);
-    //     } else if (key > currentNode) {
-    //         currentNode.right = this.deleteKey(key, currentNode.right);
-    //     }
-    //     // If key is same as root, this is node to be deleted
-    //     else {
-    //         // Node with only one child or none
-    //         if (currentNode.left == null) {
-    //             return currentNode.right;
-    //         }
-    //         else if (currentNode.right == null) {
-    //             return currentNode.left;
-    //         }
-
-    //         // Node with two children: Get the inorder successor (Smallest in right subtree)
-    //         currentNode.value = this.minValue(currentNode.right);
-
-    //         // Delete the inorder successor
-    //         currentNode.right= this.deleteKey(key, currentNode.right);
-
-
-    //     }
-    // };
-
-    minValue(root) {
-        let minv = root.value;
-        while (root.left != null) {
-            minv = root.left.value;
-            root = root.left;
+    isBalanced(node = this.root) {
+        if (node === null) {
+          return true;
         }
-        return minv;
+    
+        const leftHeight = this.height(node.left);
+        const rightHeight = this.height(node.right);
+    
+        if (Math.abs(leftHeight - rightHeight) <= 1 && this.isBalanced(node.left) && this.isBalanced(node.right)) {
+          return true;
+        }
+    
+        return false;
     }
+
+    inorder(fn = (node) => console.log(node.value)) {
+        const result = [];
+    
+        const traverse = (node) => {
+          if (node === null) {
+            return;
+          }
+    
+          traverse(node.left);
+          fn(node);
+          result.push(node.value);
+          traverse(node.right);
+        };
+    
+        traverse(this.root);
+    
+        return result;
+    }
+    
+    preorder(fn = (node) => console.log(node.value)) {
+        const result = [];
+    
+        const traverse = (node) => {
+          if (node === null) {
+            return;
+          }
+    
+          fn(node);
+          result.push(node.value);
+          traverse(node.left);
+          traverse(node.right);
+        };
+    
+        traverse(this.root);
+    
+        return result;
+    }
+    
+    postorder(fn = (node) => console.log(node.value)) {
+        const result = [];
+    
+        const traverse = (node) => {
+          if (node === null) {
+            return;
+          }
+    
+          traverse(node.left);
+          traverse(node.right);
+          fn(node);
+          result.push(node.value);
+        };
+    
+        traverse(this.root);
+    
+        return result;
+    }
+    
+    rebalance(traversal = 'inorder') {
+        // Traverse the tree in the specified order and collect the node values
+        const arr = [];
+        switch (traversal) {
+          case 'inorder':
+            this.inorder((node) => arr.push(node.value));
+            break;
+          case 'preorder':
+            this.preorder((node) => arr.push(node.value));
+            break;
+          case 'postorder':
+            this.postorder((node) => arr.push(node.value));
+            break;
+          default:
+            throw new Error(`Invalid traversal method: ${traversal}`);
+        }
+
+        this.root = this.buildTree(arr);
+    
+        // Rebuild the tree with the collected node values
+        // const newTree = new Tree();
+        // const rebuild = (values, start, end) => {
+        //   if (start > end) return null;
+        //   const mid = Math.floor((start + end) / 2);
+        //   const node = new Node(values[mid]);
+        //   node.left = rebuild(values, start, mid - 1);
+        //   node.right = rebuild(values, mid + 1, end);
+        //   return node;
+        // };
+        // newTree.root = rebuild(arr, 0, arr.length - 1);
+    
+        // Return the new balanced tree
+        // return newTree;
+    }
+
+    
+
+    
 
     prettyPrint = (node = this.root, prefix = '', isLeft = true) => {
         if (node.right !== null) {
@@ -226,7 +296,12 @@ let array = [23,12,6,34,126,4,27,45,4,134]
 // console.log(sorted)
 
 const myTree = new Tree(array)
-const node = myTree.find(23);
-const height = myTree.depth(node);
-console.log(height)
+myTree.insert(200)
+myTree.insert(300)
+myTree.insert(400)
+myTree.insert(500)
 myTree.prettyPrint();
+console.log(myTree.isBalanced())
+myTree.rebalance()
+myTree.prettyPrint()
+console.log(myTree.isBalanced())
