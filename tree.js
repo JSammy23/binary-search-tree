@@ -135,6 +135,36 @@ class Tree {
     
         return result;
     }
+
+    height(node) {
+        if (node === null) {
+          return -1;
+        }
+    
+        const leftHeight = this.height(node.left);
+        const rightHeight = this.height(node.right);
+    
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+
+    depth(node) {
+        let current = this.root;
+        let depth = 0;
+    
+        while (current !== null) {
+          if (node.value === current.value) {
+            return depth;
+          } else if (node.value < current.value) {
+            current = current.left;
+          } else {
+            current = current.right;
+          }
+    
+          depth++;
+        }
+    
+        return -1;
+    }
     
     
 
@@ -196,6 +226,7 @@ let array = [23,12,6,34,126,4,27,45,4,134]
 // console.log(sorted)
 
 const myTree = new Tree(array)
-const values = myTree.levelOrder();
-console.log(values);
+const node = myTree.find(23);
+const height = myTree.depth(node);
+console.log(height)
 myTree.prettyPrint();
