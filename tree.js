@@ -34,6 +34,7 @@ class Tree {
         return currentNode;
     }
 
+    // Delete Value
     delete(value) {
         this.root = this._deleteNode(this.root, value);
     }
@@ -91,6 +92,50 @@ class Tree {
         }
         return currentNode;
     }
+
+    find(value) {
+        let currentNode =  this.root;
+
+        while (currentNode) {
+            if (value === currentNode.value) {
+                return currentNode;
+            }
+            if (value < currentNode.value) {
+                currentNode = currentNode.left;
+            } else {
+                currentNode = currentNode.right;
+            }
+        }
+        return null;
+    }
+
+    levelOrder(callback = null) {
+        const result = [];
+        const queue = [];
+    
+        if (this.root) {
+          queue.push(this.root);
+        }
+    
+        while (queue.length > 0) {
+          const node = queue.shift();
+          result.push(node.value);
+    
+          if (callback) {
+            callback(node);
+          }
+    
+          if (node.left) {
+            queue.push(node.left);
+          }
+          if (node.right) {
+            queue.push(node.right);
+          }
+        }
+    
+        return result;
+    }
+    
     
 
     // deleteKey(key, currentNode = this.root) {
@@ -151,6 +196,6 @@ let array = [23,12,6,34,126,4,27,45,4,134]
 // console.log(sorted)
 
 const myTree = new Tree(array)
-
-myTree.delete(6)
+const values = myTree.levelOrder();
+console.log(values);
 myTree.prettyPrint();
