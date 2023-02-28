@@ -1,4 +1,4 @@
-const Node = require('./bst');
+const Node = require('./node');
 
 
 class Tree {
@@ -289,19 +289,18 @@ class Tree {
     
 }
 
+module.exports = Tree;
 
-let array = [23,12,6,34,126,4,27,45,4,134]
+// let array = [23,12,6,34,126,4,27,45,4,134]
 
-// const sorted = [...new Set(array)].sort((a,b) => a - b);
-// console.log(sorted)
 
-const myTree = new Tree(array)
-myTree.insert(200)
-myTree.insert(300)
-myTree.insert(400)
-myTree.insert(500)
-myTree.prettyPrint();
-console.log(myTree.isBalanced())
-myTree.rebalance()
-myTree.prettyPrint()
-console.log(myTree.isBalanced())
+// const myTree = new Tree(array)
+// myTree.insert(200)
+// myTree.insert(300)
+// myTree.insert(400)
+// myTree.insert(500)
+// myTree.prettyPrint();
+// console.log(myTree.isBalanced())
+// myTree.rebalance()
+// myTree.prettyPrint()
+// console.log(myTree.isBalanced())
